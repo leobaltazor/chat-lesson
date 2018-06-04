@@ -4,7 +4,7 @@ import { TextField, Button } from "@material-ui/core";
 import "./index.css";
 import { connect } from "react-redux";
 
-import { authRequestStart } from "../actions/index";
+import { authRequestStart } from "../../actions/";
 
 class AuthLayout extends Component {
   constructor(props) {
