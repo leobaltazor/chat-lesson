@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import "./index.css";
+import { connect } from "react-redux";
+
+import { authRequestStart } from "../actions/index";
 
 class AuthLayout extends Component {
   constructor(props) {
@@ -37,30 +40,30 @@ class AuthLayout extends Component {
           label="Password"
           onInput={this.helperInput("password")}
         />
-				<div className="button">
-        <Button
-          variant="outlined"
-          onClick={this.onClick}
-          margin="normal"
-          className="button"
-					>
-          {" "}
-          Sing-In
-        </Button>
-				<Button
-          variant="outlined"
-          onClick={this.onClick}
-          margin="normal"
-          className="button"
-					>
-          {" "}
-          Log-In
-        </Button>
-					</div>
+        <div className="button">
+          <Button
+            variant="outlined"
+            onClick={this.onClick}
+            margin="normal"
+            className="button"
+          >
+            {" "}
+            Log-In
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={this.onClick}
+            margin="normal"
+            className="button"
+          >
+            {" "}
+            Sing-In
+          </Button>
+        </div>
       </section>
     );
   }
 }
-
 
 export default AuthLayout;
