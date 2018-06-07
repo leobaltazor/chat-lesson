@@ -1,69 +1,63 @@
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
-import "./index.css";
 import { connect } from "react-redux";
+import { setAuthParams } from "../../actions";
+import Preloader from "../../component";
 
-import { authRequestStart } from "../../actions/";
-
-class AuthLayout extends Component {
+class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      login: "",
       password: ""
     };
   }
-  onClick = () => {
-    let { email, password } = this.state;
-    console.log(email + "=====" + password);
-    // let {email, password} =
-  };
-  helperInput = name => event => {
-    // console.log(event.target.value);
-    // console.log(name);
-    this.setState({ [name]: event.target.value });
+
+  onInput = (val, key) => this.setState({ [key]: val });
+
+  auth = e => {
+    e.preventDefault();
+    const { login, password } = this.state;
+    this.props.setAuthParams(login, password);
   };
 
   render() {
-    console.log(this.props);
+    const { login, password } = this.state;
+    const { status } = this.props;
     return (
-      <section>
+      <section className="auth-form">
+        {status ? <Preloader /> : ""}
         <TextField
           label="email"
           margin="normal"
-          onInput={this.helperInput("email")}
-          margin="normal"
+          value={login}
+          onChange={e => this.onInput(e.target.value, "login")}
         />
         <TextField
+          label="password"
           type="password"
-          label="Password"
-          onInput={this.helperInput("password")}
+          margin="normal"
+          value={password}
+          onChange={e => this.onInput(e.target.value, "password")}
         />
-        <div className="button">
-          <Button
-            variant="outlined"
-            onClick={this.onClick}
-            margin="normal"
-            className="button"
-          >
-            {" "}
-            Log-In
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={this.onClick}
-            margin="normal"
-            className="button"
-          >
-            {" "}
-            Sing-In
-          </Button>
-        </div>
+        <Button variant="contained" color="primary" onClick={this.auth}>
+          AUTH
+        </Button>
       </section>
     );
   }
 }
 
-export default AuthLayout;
+const mapStateToProps = state => ({
+	status: state.auth.state
+});
+
+const mapDispatchToProps = dispatch => ({
+  setAuthParams: (login, password) => dispatch(setAuthParams(login, password))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);
